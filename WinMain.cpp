@@ -1,4 +1,5 @@
 #include <Windows.h>
+#include <sstream>
 
 // Forward declaration of the window procedure
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -98,6 +99,52 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
             SetWindowText(hwnd, L"Right movement");
         }
         break;
+
+
+
+    //case WM_CHAR:
+    //{
+    //    static std::string title;
+    //    title.push_back(static_cast<char>(wParam));
+    //    SetWindowText(hwnd, title.c_str());
+    //}
+    //break;
+
+
+    case WM_CHAR:
+    {
+        static std::wstring title; // Use wstring for wide-character strings
+        title.push_back(static_cast<wchar_t>(wParam)); // Push a wide-character
+        SetWindowTextW(hwnd, title.c_str()); // Use SetWindowTextW for wide-character strings
+    }
+    break;
+
+
+
+    //case WM_CHAR:
+    //{
+    //    static std::string title;
+    //    title.push_back((char)wParam ;
+    //    SetWindowText(hwnd, title.c_str());
+    //}
+
+    //break;
+
+
+    case WM_LBUTTONDOWN:
+    {
+        POINTS pt = MAKEPOINTS(lParam);
+        std::ostringstream oss;
+        oss << '(' << pt.x << ',' << pt.y << ')';
+        std::string narrowStr = oss.str(); // Convert to narrow-character string
+        int length = MultiByteToWideChar(CP_UTF8, 0, narrowStr.c_str(), -1, NULL, 0);
+        wchar_t* wideStr = new wchar_t[length];
+        MultiByteToWideChar(CP_UTF8, 0, narrowStr.c_str(), -1, wideStr, length);
+
+        SetWindowTextW(hwnd, wideStr);
+    }
+    break;
+
 
     case WM_DESTROY:
         PostQuitMessage(0);
