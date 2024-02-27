@@ -75,6 +75,30 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
         PostQuitMessage(69);
         // DestroyWindow(hwnd);
         break;
+
+    case WM_KEYDOWN:
+        if (wParam == 'W')
+        {
+            SetWindowText(hwnd, L"Forward Movement");
+        }
+
+
+        else if (wParam == 'S')
+        {
+            SetWindowText(hwnd, L"Backward Movement");
+        }
+        
+        else if (wParam == 'A')
+        {
+            SetWindowText(hwnd, L"Left movement");
+        }
+         
+        else if (wParam == 'D')
+        {
+            SetWindowText(hwnd, L"Right movement");
+        }
+        break;
+
     case WM_DESTROY:
         PostQuitMessage(0);
         break;
