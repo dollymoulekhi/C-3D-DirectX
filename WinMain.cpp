@@ -46,12 +46,24 @@ int CALLBACK WinMain(
 
     // Message pump 
     MSG msg;
-    while (GetMessage(&msg, nullptr, 0, 0) > 0)
+    BOOL gResult;
+
+    while ((gResult=GetMessage(&msg, nullptr, 0, 0)) > 0)
     {
         TranslateMessage(&msg);
         DispatchMessage(&msg);
     }
-    return 0;
+
+    if (gResult == -1)
+
+    {
+        return -1;
+    }
+
+
+    else {
+        return msg.wParam;
+    }
 }
 
 // Custom window procedure
@@ -60,7 +72,8 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
     switch (msg)
     {
     case WM_CLOSE:
-        DestroyWindow(hwnd);
+        PostQuitMessage(69);
+        // DestroyWindow(hwnd);
         break;
     case WM_DESTROY:
         PostQuitMessage(0);
